@@ -12,9 +12,12 @@ export default function ProductDetail() {
   const { addToCart } = useCart();
   const [qty, setQty] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
+  const [selectedColor, setSelectedColor] = useState('');
 
   // Find the exact product by parsing the string parameter from Next router
   const product = PRODUCTS.find((p) => p.id === parseInt(params.id));
+  const currentColor = selectedColor || product?.color;
+  const availableColors = product ? [product.color, 'var(--bg-dark-warm)', '#e8e1d7'] : [];
 
   if (!product) {
     return (
@@ -28,7 +31,7 @@ export default function ProductDetail() {
   }
 
   const handleAddToCart = () => {
-    addToCart(product, qty);
+    addToCart({ ...product, color: currentColor }, qty);
     setIsAdded(true);
     setTimeout(() => {
       setIsAdded(false);
@@ -53,9 +56,10 @@ export default function ProductDetail() {
           <div style={{ flex: '1 1 400px', background: 'var(--surface)', borderRadius: '24px', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '600px', border: '1px solid var(--border)' }}>
             <div style={{ 
               width: '50%', height: '60%', 
-              background: product.color, 
+              background: currentColor, 
               borderRadius: '20px 20px 60px 20px',
-              boxShadow: 'inset -15px -15px 30px rgba(0,0,0,0.2), 0 20px 40px rgba(0,0,0,0.1)'
+              boxShadow: 'inset -15px -15px 30px rgba(0,0,0,0.2), 0 20px 40px rgba(0,0,0,0.1)',
+              transition: 'background 0.3s ease'
             }}></div>
           </div>
 
@@ -99,9 +103,23 @@ export default function ProductDetail() {
 
                 <div>
                   <h4 style={{ color: 'var(--bg-dark-warm)', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Color</h4>
-                  <div className="color-swatches" style={{ marginTop: '0.8rem' }}>
-                    <div className="swatch" style={{ background: product.color, width: '30px', height: '30px', border: '2px solid white', boxShadow: '0 0 0 2px var(--amber)' }}></div>
-                    <div className="swatch" style={{ background: 'var(--bg-dark-warm)', width: '30px', height: '30px' }}></div>
+                  <div className="color-swatches" style={{ marginTop: '0.8rem', display: 'flex', gap: '0.5rem' }}>
+                    {availableColors.map(color => (
+                      <div 
+                        key={color}
+                        className="swatch" 
+                        onClick={() => setSelectedColor(color)}
+                        style={{ 
+                          background: color, 
+                          width: '30px', height: '30px', 
+                          border: '2px solid white', 
+                          boxShadow: currentColor === color ? '0 0 0 2px var(--amber)' : 'none',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          borderRadius: '50%'
+                        }}
+                      ></div>
+                    ))}
                   </div>
                 </div>
               </div>

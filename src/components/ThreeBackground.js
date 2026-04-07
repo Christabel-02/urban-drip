@@ -7,8 +7,8 @@ function AnimatedSphere({ color, position, speed, distort, scale }) {
   const meshRef = useRef();
 
   useFrame((state) => {
-    meshRef.current.rotation.x = state.clock.getElapsedTime() * speed;
-    meshRef.current.rotation.y = state.clock.getElapsedTime() * (speed * 0.5);
+    meshRef.current.rotation.x = state.clock.getElapsedTime() * speed * 0.2;
+    meshRef.current.rotation.y = state.clock.getElapsedTime() * (speed * 0.1);
     meshRef.current.position.y = position[1] + Math.sin(state.clock.getElapsedTime() * speed) * 0.5;
   });
 
@@ -19,8 +19,10 @@ function AnimatedSphere({ color, position, speed, distort, scale }) {
         attach="material"
         distort={distort}
         speed={speed}
-        roughness={0.2}
-        metalness={0.8}
+        roughness={1}
+        metalness={0.1}
+        transparent={true}
+        opacity={0.7}
       />
     </Sphere>
   );
@@ -28,19 +30,15 @@ function AnimatedSphere({ color, position, speed, distort, scale }) {
 
 export default function ThreeBackground() {
   return (
-    <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 5]} intensity={1} color="#FF7F50" />
-      <directionalLight position={[-10, -10, 5]} intensity={0.5} color="#800020" />
+    <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+      <ambientLight intensity={0.3} />
+      <directionalLight position={[10, 10, 5]} intensity={0.5} color="#FF7F50" />
+      <directionalLight position={[-10, -10, 5]} intensity={0.3} color="#800000" />
       
-      {/* Coral Sphere */}
-      <AnimatedSphere color="#FF7F50" position={[-2, 1, -2]} speed={1} distort={0.4} scale={1.2} />
-      
-      {/* Burgundy Sphere */}
-      <AnimatedSphere color="#800020" position={[2, -1, -3]} speed={0.8} distort={0.6} scale={1.5} />
-      
-      {/* Amber Sphere */}
-      <AnimatedSphere color="#FFBF00" position={[0, 0, -5]} speed={1.2} distort={0.3} scale={2} />
+      {/* Massive, slow-moving, soft background blends */}
+      <AnimatedSphere color="#FF7F50" position={[-5, 3, -12]} speed={0.4} distort={0.5} scale={6} />
+      <AnimatedSphere color="#800020" position={[5, -2, -15]} speed={0.3} distort={0.6} scale={7} />
+      <AnimatedSphere color="#FFBF00" position={[0, -1, -20]} speed={0.5} distort={0.4} scale={10} />
     </Canvas>
   );
 }
