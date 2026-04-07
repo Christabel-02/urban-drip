@@ -36,13 +36,20 @@ export default function Store() {
         <div className="hero-content">
           <h1 className="brand-font">Wear Your Story</h1>
           <p>Curated threads. Unspoken expressions.</p>
-          <button className="btn-primary" style={{ width: 'auto', padding: '1rem 3rem', marginTop: '2rem', borderRadius: '30px' }}>
+          <button 
+            className="btn-primary" 
+            style={{ width: 'auto', padding: '1rem 3rem', marginTop: '2rem', borderRadius: '30px' }}
+            onClick={() => {
+              document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+              setActiveCategory('All');
+            }}
+          >
             Shop New Arrivals
           </button>
         </div>
       </section>
 
-      <main className="container">
+      <main className="container" id="catalog">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4rem', flexWrap: 'wrap', gap: '1rem' }}>
           <h2 className="brand-font" style={{ fontSize: '2.5rem', color: 'var(--bg-dark-warm)' }}>
             {activeCategory === "All" ? "Trending Now" : activeCategory + " Collection"}
