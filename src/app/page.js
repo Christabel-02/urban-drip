@@ -1,28 +1,16 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import ThreeBackground from '@/components/ThreeBackground';
+import { PRODUCTS } from '@/lib/products';
 
 export default function Store() {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const dummyProducts = [
-    { id: 1, name: "Sunset Maxi Dress", price: "$89", category: "Women / Dresses", color: "var(--coral)" },
-    { id: 2, name: "Vintage Maroon Hoodie", price: "$65", category: "Unisex / Vintage", color: "var(--maroon)" },
-    { id: 3, name: "Classic Amber Tee", price: "$35", category: "Men / T-Shirts", color: "var(--amber)" },
-    { id: 4, name: "Burgundy Silk Saree", price: "$120", category: "Women / Traditional", color: "var(--burgundy)" },
-    { id: 5, name: "Warm Gym Co-ords", price: "$55", category: "Women / Activewear", color: "var(--coral)" },
-    { id: 6, name: "Desert Sand Overcoat", price: "$140", category: "Men / Winterwear", color: "var(--bg-dark-warm)" },
-    { id: 7, name: "Streetwear Cargo Palazzos", price: "$75", category: "Women / Bottomwear", color: "var(--maroon)" },
-    { id: 8, name: "Eco-Linen Blazer", price: "$110", category: "Sustainable", color: "var(--amber)" },
-    { id: 9, name: "Coral Summer Top", price: "$45", category: "Women / Tops", color: "var(--coral)" },
-    { id: 10, name: "Burgundy Men's Blazer", price: "$180", category: "Men / Formal", color: "var(--burgundy)" },
-    { id: 11, name: "Kids Amber Tracksuit", price: "$50", category: "Kids / Boys", color: "var(--amber)" }
-  ];
-
   const filteredProducts = activeCategory === "All" 
-    ? dummyProducts 
-    : dummyProducts.filter(p => p.category.toLowerCase().includes(activeCategory.toLowerCase()));
+    ? PRODUCTS 
+    : PRODUCTS.filter(p => p.category.toLowerCase().includes(activeCategory.toLowerCase()));
 
   return (
     <div style={{ background: 'var(--bg-warm)', minHeight: '100vh' }}>
@@ -75,28 +63,30 @@ export default function Store() {
         ) : (
           <div className="product-grid">
             {filteredProducts.map(product => (
-              <div key={product.id} className="product-card">
-                <div className="product-image">
-                  {/* Aesthetic placeholder mimicking clothing */}
-                  <div style={{ 
-                    width: '60%', height: '70%', 
-                    background: product.color, 
-                    borderRadius: '10px 10px 40px 10px',
-                    boxShadow: 'inset -10px -10px 20px rgba(0,0,0,0.2)'
-                  }}></div>
-                </div>
-                <div className="product-info">
-                  <span className="product-category">{product.category}</span>
-                  <h3 className="product-title">{product.name}</h3>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
-                    <span className="product-price">{product.price}</span>
-                    <div className="color-swatches">
-                      <div className="swatch" style={{ background: product.color }}></div>
-                      <div className="swatch" style={{ background: 'var(--bg-dark-warm)' }}></div>
+              <Link href={`/product/${product.id}`} key={product.id} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div className="product-card">
+                  <div className="product-image">
+                    {/* Aesthetic placeholder mimicking clothing */}
+                    <div style={{ 
+                      width: '60%', height: '70%', 
+                      background: product.color, 
+                      borderRadius: '10px 10px 40px 10px',
+                      boxShadow: 'inset -10px -10px 20px rgba(0,0,0,0.2)'
+                    }}></div>
+                  </div>
+                  <div className="product-info">
+                    <span className="product-category">{product.category}</span>
+                    <h3 className="product-title">{product.name}</h3>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
+                      <span className="product-price">{product.price}</span>
+                      <div className="color-swatches">
+                        <div className="swatch" style={{ background: product.color }}></div>
+                        <div className="swatch" style={{ background: 'var(--bg-dark-warm)' }}></div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
