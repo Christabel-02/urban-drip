@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import ThreeBackground from '@/components/ThreeBackground';
@@ -7,6 +7,19 @@ import { PRODUCTS } from '@/lib/products';
 
 export default function Store() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [displayText, setDisplayText] = useState('');
+  const fullText = "Wear Your Story";
+
+  useEffect(() => {
+    let i = 0;
+    setDisplayText('');
+    const timer = setInterval(() => {
+      setDisplayText(fullText.slice(0, i + 1));
+      i++;
+      if (i >= fullText.length) clearInterval(timer);
+    }, 120);
+    return () => clearInterval(timer);
+  }, []);
 
   const filteredProducts = activeCategory === "All" 
     ? PRODUCTS 
@@ -23,7 +36,16 @@ export default function Store() {
             <ThreeBackground />
           </div>
           <div className="hero-content">
-            <h1 className="brand-font">Wear Your Story</h1>
+            <style>{`
+              @keyframes blink {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0; }
+              }
+            `}</style>
+            <h1 className="brand-font">
+              {displayText}
+              <span style={{ borderRight: '2px solid var(--text-main)', animation: 'blink 1s step-end infinite' }}></span>
+            </h1>
             <p>Curated threads. Unspoken expressions.</p>
             <button 
               className="btn-primary" 
