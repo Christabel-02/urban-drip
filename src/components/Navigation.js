@@ -4,12 +4,6 @@ import { Menu, Search, ShoppingBag, User } from 'lucide-react';
 
 export default function Navigation({ onSelectCategory }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
-
-  useEffect(() => {
-    const storedEmail = localStorage.getItem('urbanDripUserEmail');
-    if (storedEmail) setUserEmail(storedEmail);
-  }, []);
 
   const categories = [
     { title: "Women", sub: ["Tops", "Dresses", "Ethnic", "Bottomwear", "Active", "Loungewear", "Winter", "Maternity", "Plus Size"] },
@@ -38,23 +32,14 @@ export default function Navigation({ onSelectCategory }) {
       </div>
 
       <div className="nav-links" style={{ display: menuOpen ? 'none' : 'flex' }}>
-        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleCategoryClick("All"); }}>New Arrivals</a>
-        <a href="#" className="nav-link">Best Sellers</a>
-        <a href="#" className="nav-link">Collections</a>
+        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleCategoryClick("New"); }}>New Arrivals</a>
+        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleCategoryClick("Trending"); }}>Best Sellers</a>
+        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleCategoryClick("Sustainable"); }}>Collections</a>
       </div>
 
       <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
         <Search style={{ cursor: 'pointer', color: 'var(--text-main)' }} size={20} />
-        
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <User style={{ cursor: 'pointer', color: 'var(--text-main)' }} size={20} />
-          {userEmail && (
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-main)', fontWeight: 600 }}>
-              {userEmail}
-            </span>
-          )}
-        </div>
-
+        <User style={{ cursor: 'pointer', color: 'var(--text-main)' }} size={20} />
         <ShoppingBag style={{ cursor: 'pointer', color: 'var(--maroon)' }} size={20} />
       </div>
 

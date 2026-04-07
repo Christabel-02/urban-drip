@@ -28,26 +28,27 @@ export default function Store() {
     <div style={{ background: 'var(--bg-warm)', minHeight: '100vh' }}>
       <Navigation onSelectCategory={(cat) => setActiveCategory(cat)} />
       
-      <section className="store-hero">
-        <div className="hero-3d">
-          {/* Re-using the 3D canvas but covering the hero section */}
-          <ThreeBackground />
-        </div>
-        <div className="hero-content">
-          <h1 className="brand-font">Wear Your Story</h1>
-          <p>Curated threads. Unspoken expressions.</p>
-          <button 
-            className="btn-primary" 
-            style={{ width: 'auto', padding: '1rem 3rem', marginTop: '2rem', borderRadius: '30px' }}
-            onClick={() => {
-              document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
-              setActiveCategory('All');
-            }}
-          >
-            Shop New Arrivals
-          </button>
-        </div>
-      </section>
+      {activeCategory === "All" && (
+        <section className="store-hero">
+          <div className="hero-3d">
+            {/* Re-using the 3D canvas but covering the hero section */}
+            <ThreeBackground />
+          </div>
+          <div className="hero-content">
+            <h1 className="brand-font">Wear Your Story</h1>
+            <p>Curated threads. Unspoken expressions.</p>
+            <button 
+              className="btn-primary" 
+              style={{ width: 'auto', padding: '1rem 3rem', marginTop: '2rem', borderRadius: '30px' }}
+              onClick={() => {
+                document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Shop New Arrivals
+            </button>
+          </div>
+        </section>
+      )}
 
       <main className="container" id="catalog">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4rem', flexWrap: 'wrap', gap: '1rem' }}>
