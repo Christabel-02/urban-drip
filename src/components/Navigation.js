@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, Search, ShoppingBag, User } from 'lucide-react';
 
-export default function Navigation() {
+export default function Navigation({ onSelectCategory }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userEmail, setUserEmail] = useState('');
 
@@ -19,6 +19,14 @@ export default function Navigation() {
     { title: "Special", sub: ["Sustainable", "Designer", "Vintage"] }
   ];
 
+  // Callback to handle menu clicks and bubble up to page component
+  const handleCategoryClick = (catName) => {
+    if (onSelectCategory) {
+      onSelectCategory(catName);
+    }
+    setMenuOpen(false); // Auto close the menu drawer when a category is clicked
+  };
+
   return (
     <nav className="store-nav">
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -26,11 +34,11 @@ export default function Navigation() {
           style={{ cursor: 'pointer', color: 'var(--maroon)' }} 
           onClick={() => setMenuOpen(!menuOpen)} 
         />
-        <a href="/store" className="nav-brand brand-font">UrbanDrip</a>
+        <a href="/" className="nav-brand brand-font">UrbanDrip</a>
       </div>
 
       <div className="nav-links" style={{ display: menuOpen ? 'none' : 'flex' }}>
-        <a href="#" className="nav-link">New Arrivals</a>
+        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleCategoryClick("All"); }}>New Arrivals</a>
         <a href="#" className="nav-link">Best Sellers</a>
         <a href="#" className="nav-link">Collections</a>
       </div>
@@ -58,10 +66,23 @@ export default function Navigation() {
         }}>
           {categories.map((cat) => (
             <div key={cat.title}>
-              <h4 style={{ color: 'var(--burgundy)', marginBottom: '1rem', textTransform: 'uppercase' }}>{cat.title}</h4>
+              <h4 
+                style={{ color: 'var(--burgundy)', marginBottom: '1rem', textTransform: 'uppercase', cursor: 'pointer' }}
+                onClick={() => handleCategoryClick(cat.title)}
+              >
+                {cat.title}
+              </h4>
               <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {cat.sub.map(s => (
-                  <li key={s}><a href="#" style={{ color: 'var(--text-main)', textDecoration: 'none', fontSize: '0.9rem' }}>{s}</a></li>
+                  <li key={s}>
+                    <a 
+                      href="#" 
+                      onClick={(e) => { e.preventDefault(); handleCategoryClick(s); }}
+                      style={{ color: 'var(--text-main)', textDecoration: 'none', fontSize: '0.9rem' }}
+                    >
+                      {s}
+                    </a>
+                  </li>
                 ))}
               </ul>
             </div>
