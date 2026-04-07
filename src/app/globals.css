@@ -166,8 +166,18 @@ h1, h2, h3, h4, h5, .brand-font {
 
 .nav-brand {
   font-size: 2rem;
-  color: var(--burgundy);
   text-decoration: none;
+  background: linear-gradient(270deg, var(--burgundy), var(--coral), var(--amber), var(--maroon));
+  background-size: 600% 600%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: dripFlow 6s ease infinite;
+}
+
+@keyframes dripFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .nav-links {
